@@ -38,27 +38,74 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideshowMovies = ref.watch(moviesSlideshowProvider);
 
-    return Column(
-      children: [
-        const CustomAppbar(),
-        MoviesSlideshow(movies: slideshowMovies),
-        MovieHorizontalListview(
-          movies: nowPlayingMovies,
-          title: 'En cines',
-          subtitle: 'Lunes 20',
-        )
+    return CustomScrollView(
+      slivers: [
+        const SliverAppBar(
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: CustomAppbar(),
+            titlePadding: EdgeInsets.zero,
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return Column(
+              children: [
+                //const CustomAppbar(),
+                MoviesSlideshow(movies: slideshowMovies),
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'En cines',
+                  subtitle: 'Lunes 20',
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'Proximamente',
+                  subtitle: 'En este mes',
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
 
-        // Expanded(
-        //   child: ListView.builder(
-        //     itemCount: nowPlayingMovies.length,
-        //     itemBuilder: (context, index) {
-        //       final movie = nowPlayingMovies[index];
-        //       return ListTile(
-        //         title: Text(movie.title),
-        //       );
-        //     },
-        //   ),
-        // ),
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'Populared',
+                  //subtitle: 'En este mes',
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
+
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'Mejor calificadas',
+                  // subtitle: 'En este mes',
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
+                const SizedBox(
+                  height: 10,
+                )
+
+                // Expanded(
+                //   child: ListView.builder(
+                //     itemCount: nowPlayingMovies.length,
+                //     itemBuilder: (context, index) {
+                //       final movie = nowPlayingMovies[index];
+                //       return ListTile(
+                //         title: Text(movie.title),
+                //       );
+                //     },
+                //   ),
+                // ),
+              ],
+            );
+          }, childCount: 1),
+        )
       ],
     );
   }
