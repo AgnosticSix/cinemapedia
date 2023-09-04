@@ -87,7 +87,7 @@ class _Slide extends StatelessWidget {
               child: Image.network(
                 movie.posterPath,
                 fit: BoxFit.cover,
-                width: 150,
+                width: 100,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) {
                     return const Center(
@@ -101,10 +101,10 @@ class _Slide extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 2),
           SizedBox(
             width: 200,
-            child: Text(movie.title, maxLines: 2, style: textStyles.titleSmall),
+            child: Text(movie.title, maxLines: 1, style: textStyles.titleSmall),
           ),
           SizedBox(
             width: 190,
